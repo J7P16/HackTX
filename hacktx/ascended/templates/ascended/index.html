@@ -1,4 +1,5 @@
 {% load static %}
+{% load socialaccount %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,8 +10,24 @@
 </head>
 <body>
     <h1>AscendEd</h1>
-    <button>
-        Sign in with Google
-    </button>
+    {% if error %}
+        <p>ERROR: {{ error }}
+    {% endif %}
+    {% if user.is_authenticated %}
+        <p>Welcome, {{ user.username }}!</p>
+        <p>Logged in!</p>
+
+        <a href="{% url 'account_logout' %}">
+            <button>
+                Sign out
+            </button>
+        </a>
+    {% else %}
+        <a href="{% provider_login_url 'google' process='login' %}">
+            <button>
+                Sign in with Google
+            </button>
+        </a>
+    {% endif %}
 </body>
 </html>
